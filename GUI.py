@@ -31,6 +31,13 @@ menu_def2 = [
     'Prefer not to say'
 ]
 
+menu_def3 = [
+    ['Lose weight'],
+    'Lose weight slowly',
+    'Maintain weight', 
+    'Gain weight slowly', 
+    'Gain weight'
+]
 layout1 = [[sg.Image("not_wii_fit.png")],
            [sg.Push(), sg.Button('START'), sg.Push()]
            ]
@@ -41,6 +48,7 @@ layout2 = [[sg.Text('Before we begin, please provide the following information:'
            [sg.Text('Age:', size =(5,1)), sg.InputText(key='-AGE-')],
            [sg.Text('Gender:', size =(5,1)), sg.Combo(menu_def2, key='-GENDR-')],
            [sg.Text('Activity Level:', size =(5,1)), sg.Combo(menu_def1, key='-ACTLVL-')],
+           [sg.Text('Weight Goal:', size =(5,1)), sg.Combo(menu_def1, key='-GOAL-')],
            [sg.Push(), sg.Button('CONTINUE'), sg.Push()]
            ]
 
@@ -63,15 +71,12 @@ while True:
         break
     if event == 'START':
         window[f'-COLUMN{layout}-'].update(visible=False)
-        #layout = layout + 1 if layout < 3 else 1
         layout = 2
         window[f'-COLUMN{layout}-'].update(visible=True)
-        #while layout = 2
     if event == 'CONTINUE':
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 3
         window[f'-COLUMN{layout}-'].update(visible=True)
-        user_input = values 
 window.close()
 
 
