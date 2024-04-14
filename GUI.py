@@ -28,11 +28,11 @@ menu_def1 = [
 menu_def2 = [
     ['Male'],
     'Female',
-    'Prefer not to say'
+    
 ]
 
 menu_def3 = [
-    ['Lose weight'],
+    'Lose weight',
     'Lose weight slowly',
     'Maintain weight', 
     'Gain weight slowly', 
@@ -44,15 +44,14 @@ layout1 = [[sg.Image("not_wii_fit.png")],
 
 layout2 = [[sg.Text('Before we begin, please provide the following information:', justification= "center")],
         [sg.Text('Height:', size =(5,1)), sg.InputText(key='-HEIGHT-')],
-           [sg.Text('Weight:', size =(5,1)), sg.InputText(key='-WEIGHT-')],
            [sg.Text('Age:', size =(5,1)), sg.InputText(key='-AGE-')],
            [sg.Text('Gender:', size =(5,1)), sg.Combo(menu_def2, key='-GENDR-')],
            [sg.Text('Activity Level:', size =(5,1)), sg.Combo(menu_def1, key='-ACTLVL-')],
-           [sg.Text('Weight Goal:', size =(5,1)), sg.Combo(menu_def1, key='-GOAL-')],
+           [sg.Text('Goal:', size =(5,1)), sg.Combo(menu_def3, key='-GOAL-')],
            [sg.Push(), sg.Button('CONTINUE'), sg.Push()]
            ]
 
-layout3 = [[sg.Text('This is what the menu will look like while the wii fit board is doing its thang. idk')]]
+layout3 = [[sg.Text('Weight:', size =(5,1)), sg.InputText(key='-WEIGHT-')]]
 
 # more shenanigans (the main part of the program :/)
 layout = [[sg.Column(layout1, key='-COLUMN1-'), sg.Column(layout2, visible=False, key='-COLUMN2-'), sg.Column(layout3, visible=False, key='-COLUMN3-')]]
