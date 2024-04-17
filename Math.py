@@ -10,10 +10,10 @@ ACTIVITY_LEVELS = ['Sedentary',
 
 
 class Math:
-    def __init__(self, weight, height, gender, age, activity, goal) -> None:
+    def __init__(self, weight, feet, inches, gender, age, activity, goal) -> None:
         self.weight = weight
-        self.height = height 
-        self.gender = gender
+        self.height = self.find_height(feet, inches) 
+        self._gender = gender
         self.age = age
         self.activity = activity
         self.goal = goal
@@ -24,6 +24,7 @@ class Math:
 
     @weight.setter
     def weight(self, value):
+        value = int(value)
         if value > 0:
             self._weight = value
         else:
@@ -35,21 +36,23 @@ class Math:
     
     @height.setter
     def height(self, value):
+        value = int(value)
         if value > 0:
             self._height = value
         else:
             self._height = 1
 
+    
     @property
     def gender(self):
         return self._gender
     
     @gender.setter
     def gender(self, string):
-        if string == 'female':
+        if string == 'Female':
             self._gender = True
-        elif string == 'male':
-            self.gender = False
+        elif string == 'Male':
+            self._gender = False
 
     @property
     def age(self):
@@ -57,6 +60,7 @@ class Math:
     
     @age.setter
     def age(self, value):
+        value = int(value)
         if value > 0:
             self._age = value
         else:
@@ -69,7 +73,13 @@ class Math:
     @activity.setter
     def activity(self, string):
         self._activity = string
-        
+
+
+    def find_height(self, ft, inch):
+        ft = int(ft)
+        inch = int(inch)
+        return (ft/12) + inch
+
     def get_BMI(self):
         s = (self.weight/(self.height)**2)
         return round(s * 703, 1)
@@ -77,7 +87,7 @@ class Math:
     def get_BMR(self):
         if self.gender == False: #male
             return 66 + (6.23* self.weight) + (12.7 *self.height) - (6.8 * self.age)
-        elif self.gender == True: #female
+        else:
             return 655 + (4.35 *self.weight) + (4.7 *self.height) -(4.7* self.age)
         
     def get_TDEE(self):
@@ -91,19 +101,42 @@ class Math:
             case 'Extremely active':
                 return 1.9 * self.get_BMR()
             
-    def get_calorie_goal(self):
+    def get_calorie_goal_STR(self):
          match self.goal:
             case 'Lose weight':
-                return self.get_TDEE() - 500
+                return f"{round(self.get_TDEE() - 500)}"
             case 'Lose weight slowly':
-                return self.get_TDEE() - 250
+                return f"{round(self.get_TDEE() - 250)}"
             case 'Maintain weight':
-                return self.get_TDEE()
+                return f"{round(self.get_TDEE(), 0)}"
             case 'Gain weight slowly':
-                return self.get_TDEE() + 250
+                return f"{round(self.get_TDEE() + 250)}"
             case 'Gain weight':
-                return self.get_TDEE() + 500
+                return f"{round(self.get_TDEE() + 500)}"
+    
+
+    #return round(s * 703, 1)
+    def get_calorie_goal(self):
+        match self.goal:
+            case 'Lose weight':
+                return round(self.get_TDEE() - 500, 0)
+            case 'Lose weight slowly':
+                return round(self.get_TDEE() - 250, 0)
+            case 'Maintain weight':
+                return round(self.get_TDEE(), 0)
+            case 'Gain weight slowly':
+                return round(self.get_TDEE() + 250, 0)
+            case 'Gain weight':
+                return round(self.get_TDEE() + 500, 0)
+    
+             
+    def get_macros(self):
+        return f"Balanced: carbs-{round((self.get_calorie_goal()*0.4)/4)}g  fat-{round((self.get_calorie_goal()*0.3)/9)}g protien-{round((self.get_calorie_goal()*0.3)/4)}g\nWeight Loss: carbs-{round((self.get_calorie_goal()*0.25)/4)}g  fat-{round((self.get_calorie_goal()*0.25)/9)}g protien-{round((self.get_calorie_goal()*0.50)/4)}g \nBodybuiling: carbs-{round((self.get_calorie_goal()*0.60)/4)}g  fat-{round((self.get_calorie_goal()*0.15)/9)}g protien-{round((self.get_calorie_goal()*0.25)/4)}g" 
+     
+
             
+
+
             
             
             
