@@ -1,0 +1,1 @@
+Fayrouz (4/8/24): finished setting up gui and the main, math portion of the program. Some features still need to be added, and we still need to figure out how to read weight from the board. 
