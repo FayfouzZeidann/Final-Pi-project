@@ -16,9 +16,7 @@ my_theme = {'BACKGROUND': '#ffffff',
 
 sg.theme_add_new('Wiifit', my_theme)
 
-
 sg.theme('Wiifit')
-
 
 # shenanigans
 menu_def1 = [
@@ -31,7 +29,6 @@ menu_def1 = [
 menu_def2 = [
     ['Male'],
     'Female',
-    
 ]
 
 menu_def3 = [
@@ -41,6 +38,7 @@ menu_def3 = [
     'Gain weight slowly', 
     'Gain weight'
 ]
+
 layout1 = [[sg.Image("not_wii_fit.png")],
            [sg.Push(), sg.Button('START'), sg.Push()]
            ]
@@ -63,8 +61,6 @@ layout4 = [
 
 # more shenanigans (the main part of the program :/)
 layout = [[sg.Column(layout1, key='-COLUMN1-'), sg.Column(layout2, visible=False, key='-COLUMN2-'), sg.Column(layout3, visible=False, key='-COLUMN3-'), sg.Column(layout4, visible=False, key='-COLUMN4-')]]
-    
-
 
 window = sg.Window('Pi calorie counter', layout)
 
@@ -74,7 +70,7 @@ while True:
     event, values = window.read()
     print(event, values)
     #user_input.append(values.values())
-   # print(user_input) #where do i put this--its FINE they dont even work
+    #print(user_input) #where do i put this--its FINE they dont even work
     if event in (None, 'Exit'):
         break
     if event == 'START':

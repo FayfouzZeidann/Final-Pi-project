@@ -8,7 +8,6 @@ ACTIVITY_LEVELS = ['Sedentary',
    'Vigorously active',
    'Extremely active']
 
-
 class Math:
     def __init__(self, weight, feet, inches, gender, age, activity, goal) -> None:
         self.weight = weight
@@ -18,6 +17,7 @@ class Math:
         self.activity = activity
         self.goal = goal
 
+    # Getter and Setter for weight
     @property
     def weight(self):
         return self._weight
@@ -30,6 +30,7 @@ class Math:
         else:
             self._weight = 1
 
+    # Getter and Setter for Height
     @property
     def height(self):
         return self._height
@@ -41,8 +42,8 @@ class Math:
             self._height = value
         else:
             self._height = 1
-
     
+    # Getter and Setter for Gender
     @property
     def gender(self):
         return self._gender
@@ -54,6 +55,7 @@ class Math:
         elif string == 'Male':
             self._gender = False
 
+    # Getter and Setter for Age
     @property
     def age(self):
         return self._age
@@ -66,6 +68,7 @@ class Math:
         else:
             self._age = 1
     
+    # Getter and Setter for Activity
     @property
     def activity(self):
         return self._activity
@@ -74,22 +77,25 @@ class Math:
     def activity(self, string):
         self._activity = string
 
-
+    # Function to find height of the person in? I'm confused as to why its ft/12
     def find_height(self, ft, inch):
         ft = int(ft)
         inch = int(inch)
         return (ft/12) + inch
 
+    # Function get the person's BMI
     def get_BMI(self):
         s = (self.weight/(self.height)**2)
         return round(s * 703, 1)
     
+    # Function used to get a person's BMR (depending on gender)
     def get_BMR(self):
         if self.gender == False: #male
             return 66 + (6.23* self.weight) + (12.7 *self.height) - (6.8 * self.age)
         else:
             return 655 + (4.35 *self.weight) + (4.7 *self.height) -(4.7* self.age)
         
+    # Function to get a person's TDEE (depending on their option)
     def get_TDEE(self):
         match self.activity:
             case 'Sedentary':
@@ -101,6 +107,7 @@ class Math:
             case 'Extremely active':
                 return 1.9 * self.get_BMR()
             
+    # Function to get recommended calories (based off their choice) and return as a string
     def get_calorie_goal_STR(self):
          match self.goal:
             case 'Lose weight':
@@ -113,9 +120,8 @@ class Math:
                 return f"{round(self.get_TDEE() + 250)}"
             case 'Gain weight':
                 return f"{round(self.get_TDEE() + 500)}"
-    
 
-    #return round(s * 703, 1)
+    #return round(s * 703, 1) &  Function to get recommended calories (based off their choice)
     def get_calorie_goal(self):
         match self.goal:
             case 'Lose weight':
@@ -129,9 +135,17 @@ class Math:
             case 'Gain weight':
                 return round(self.get_TDEE() + 500, 0)
     
-             
-    def get_macros(self):
-        return f"Balanced: carbs-{round((self.get_calorie_goal()*0.4)/4)}g  fat-{round((self.get_calorie_goal()*0.3)/9)}g protien-{round((self.get_calorie_goal()*0.3)/4)}g\nWeight Loss: carbs-{round((self.get_calorie_goal()*0.25)/4)}g  fat-{round((self.get_calorie_goal()*0.25)/9)}g protien-{round((self.get_calorie_goal()*0.50)/4)}g \nBodybuiling: carbs-{round((self.get_calorie_goal()*0.60)/4)}g  fat-{round((self.get_calorie_goal()*0.15)/9)}g protien-{round((self.get_calorie_goal()*0.25)/4)}g" 
+    # Used to get the macros and it also prints it as a string
+    def get_macros(self): # Calculates macros for what you want to do
+        return f"Balanced: Carbs-{round((self.get_calorie_goal()*0.4)/4)}g\
+        Fat-{round((self.get_calorie_goal()*0.3)/9)}g\
+        Protien-{round((self.get_calorie_goal()*0.3)/4)}g\
+        \nWeight Loss: Carbs-{round((self.get_calorie_goal()*0.25)/4)}g\
+        Fat-{round((self.get_calorie_goal()*0.25)/9)}g\
+        Protien-{round((self.get_calorie_goal()*0.50)/4)}g\
+        \nBody Builing: Carbs-{round((self.get_calorie_goal()*0.60)/4)}g\
+        Fat-{round((self.get_calorie_goal()*0.15)/9)}g\
+        Protien-{round((self.get_calorie_goal()*0.25)/4)}g" 
      
 
             
