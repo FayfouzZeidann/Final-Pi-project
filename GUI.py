@@ -57,7 +57,9 @@ layout3 = [[sg.Text('Weight:', size =(5,1)), sg.InputText(key='-WEIGHT-')],
 
 layout4 = [
     [sg.Text("Your Daily Calorie Goal is:"), sg.Text(calorie_goal ,key = '-RESULTC-')],
-    [sg.Text(macros ,key = '-RESULTM-')]]
+    [sg.Text(macros ,key = '-RESULTM-')],
+    [sg.Push(), sg.Button('WEIGH AGAIN?'), sg.Push()]
+    ]
 
 # more shenanigans (the main part of the program :/)
 layout = [[sg.Column(layout1, key='-COLUMN1-'), sg.Column(layout2, visible=False, key='-COLUMN2-'), sg.Column(layout3, visible=False, key='-COLUMN3-'), sg.Column(layout4, visible=False, key='-COLUMN4-')]]
@@ -91,6 +93,13 @@ while True:
         macros = m.get_macros()
         window['-RESULTC-'].update(calorie_goal)
         window['-RESULTM-'].update(macros)
+    # Addition by Eli, I think we should have some sort of way to weigh yourself again
+    # possibly store the previous weight in a var? and move on to the next?
+    if event == 'WEIGH AGAIN?':
+        window[f'-COLUMN{layout}-'].update(visible=False)
+        layout = 3
+        window[f'-COLUMN{layout}-'].update(visible=True)
+
 window.close()
 
 

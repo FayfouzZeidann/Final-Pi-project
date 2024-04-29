@@ -137,13 +137,16 @@ class Math:
     
     # Used to get the macros and it also prints it as a string
     def get_macros(self): # Calculates macros for what you want to do
-        return f"Balanced: Carbs-{round((self.get_calorie_goal()*0.4)/4)}g\
+        return f"Balanced:\
+        \nCarbs-{round((self.get_calorie_goal()*0.4)/4)}g\
         Fat-{round((self.get_calorie_goal()*0.3)/9)}g\
         Protien-{round((self.get_calorie_goal()*0.3)/4)}g\
-        \nWeight Loss: Carbs-{round((self.get_calorie_goal()*0.25)/4)}g\
+        \n\nWeight Loss:\
+        \nCarbs-{round((self.get_calorie_goal()*0.25)/4)}g\
         Fat-{round((self.get_calorie_goal()*0.25)/9)}g\
         Protien-{round((self.get_calorie_goal()*0.50)/4)}g\
-        \nBody Builing: Carbs-{round((self.get_calorie_goal()*0.60)/4)}g\
+        \n\nBody Builing:\
+        \nCarbs-{round((self.get_calorie_goal()*0.60)/4)}g\
         Fat-{round((self.get_calorie_goal()*0.15)/9)}g\
         Protien-{round((self.get_calorie_goal()*0.25)/4)}g" 
      
