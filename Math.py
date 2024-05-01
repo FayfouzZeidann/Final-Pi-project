@@ -9,13 +9,14 @@ ACTIVITY_LEVELS = ['Sedentary',
    'Extremely active']
 
 class Math:
-    def __init__(self, weight, feet, inches, gender, age, activity, goal) -> None:
+    def __init__(self, weight, feet, inches, gender, age, activity, goal, days = 1) -> None:
         self.weight = weight
         self.height = self.find_height(feet, inches) 
         self._gender = gender
         self.age = age
         self.activity = activity
         self.goal = goal
+        self.days = days
 
     # Getter and Setter for weight
     @property
@@ -77,7 +78,19 @@ class Math:
     def activity(self, string):
         self._activity = string
 
-    # Function to find height of the person in? I'm confused as to why its ft/12
+    # Getter and setter for days
+    @ property
+    def days(self):
+        return self._days
+    
+    @ days.setter
+    def days(self, value):
+        if value <= 0:
+            self._days = 1
+        else: 
+            self._days = value
+
+    # Function to find height
     def find_height(self, ft, inch):
         ft = int(ft)
         inch = int(inch)
@@ -150,12 +163,31 @@ class Math:
         Fat-{round((self.get_calorie_goal()*0.15)/9)}g\
         Protien-{round((self.get_calorie_goal()*0.25)/4)}g" 
      
+    # function to get and store their daily body weight
+    def get_daily_weight(self):
+        pass
 
-            
+    # gets todays date
+    def get_day(self): # dunno if we need this 
+        pass
 
+    # method to create projected body weight
+    def create_PBW(self):
+        PBW = {}
+        if (self.weight == self.goal):
+            Wc = 0
+        else:
+            Wc = (self.goal - self.weight) / self.days
 
-            
-            
-            
-                
+        for day in range(self.days + 1):
+            PBW[day] = round((self.weight + Wc * day), 2) # might need extra parenthesis
+        return PBW
+
+    # function to track daily weight
+    # needs some fixing
+    def create_ABW(self):
+        ABW = {}
+        # ABW[get_day()] = round((get_daily_weight()))
+        return ABW
+
             
