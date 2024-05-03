@@ -17,6 +17,9 @@ class Math:
         self.activity = activity
         self.goal = goal
         self.days = days
+        self._currentDay = 0
+        self.day_list = []
+        self.weight_list = []
 
     # Getter and Setter for weight
     @property
@@ -89,6 +92,15 @@ class Math:
             self._days = 1
         else: 
             self._days = value
+
+    # Getter and setter for the current day
+    @ property
+    def currentDay(self):
+        return self._currentDay
+    
+    @ currentDay.setter
+    def currentDay(self, value):
+        self._currentDay = self._currentDay + value
 
     # Function to find height
     def find_height(self, ft, inch):
@@ -163,31 +175,25 @@ class Math:
         Fat-{round((self.get_calorie_goal()*0.15)/9)}g\
         Protien-{round((self.get_calorie_goal()*0.25)/4)}g" 
      
-    # function to get and store their daily body weight
-    def get_daily_weight(self):
-        pass
-
-    # gets todays date
-    def get_day(self): # dunno if we need this 
-        pass
+    # function to get and store their daily body weight and current day
+    def data_store(self):
+        self.weight_list.append(round(self.weight, 2))
+        self.day_list.append(self.currentDay)
+        self.currentDay(1) # I think that's how I properly add a day to a setter, change it if I'm wrong pls
 
     # method to create projected body weight
     def create_PBW(self):
-        PBW = {}
+        projected_weight = []
+        projected_days = []
         if (self.weight == self.goal):
             Wc = 0
         else:
             Wc = (self.goal - self.weight) / self.days
 
         for day in range(self.days + 1):
-            PBW[day] = round((self.weight + Wc * day), 2) # might need extra parenthesis
-        return PBW
-
-    # function to track daily weight
-    # needs some fixing
-    def create_ABW(self):
-        ABW = {}
-        # ABW[get_day()] = round((get_daily_weight()))
-        return ABW
+            projected_weight.append(round((self.weight + Wc * day), 2)) # might need extra parenthesis
+            projected_days.append(day)
+        
+        return projected_weight, projected_days
 
             
