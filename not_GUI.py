@@ -6,7 +6,7 @@ from helper_functions import*
 days = [x for x in range(0,11)]
 weight = [3, 4]
 pweight = [x**2 for x in range(0,11)]
-
+DEBUG = False
 
 #constants
 calorie_goal = ''
@@ -86,6 +86,13 @@ window = sg.Window('Pi calorie counter', layout).Finalize()
 layout = 1  
 user_input = []
 while True:
+    if DEBUG:
+        m = Math("200", "5", "4", "female", "25", 'Moderately active', "Gain weight slowly", '50')
+        stored_weights = [200]
+        window[f'-COLUMN{layout}-'].update(visible=False)
+        layout = 5
+        window[f'-COLUMN{layout}-'].update(visible=True)
+        draw_figure(window["-PROJECTED-"].TKCanvas, m.create_plot(stored_weights))
     event, values = window.read()
     print(event, values)
     #user_input.append(values.values())
@@ -105,7 +112,7 @@ while True:
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 4
         window[f'-COLUMN{layout}-'].update(visible=True)
-        #string = str(Whatever(values['-HEIGHT-'])) #IT WORKS RAHH. this is the wrong class though
+       
         calorie_goal = m.get_calorie_goal_STR()
         macros = m.get_macros()
         stored_weights.append(values['-WEIGHT-'])
@@ -121,7 +128,8 @@ while True:
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 5
         window[f'-COLUMN{layout}-'].update(visible=True)
-        draw_figure(window["-PROJECTED-"].TKCanvas, m.create_plot(stored_weights))
+        # draw_figure(window["-PROJECTED-"].TKCanvas, m.create_plot(stored_weights))
+        m.create_plot(stored_weights)
     if event == 'BACK':
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 4

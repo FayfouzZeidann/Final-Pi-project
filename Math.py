@@ -1,15 +1,6 @@
 import matplotlib.pyplot as plt 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-#some constats to test things out 
-WEIGHT = 145
-HEIGHT = 64
-GENDER = True
-
-ACTIVITY_LEVELS = ['Sedentary',
-   'Moderately active',
-   'Vigorously active',
-   'Extremely active']
 
 class Math:
     def __init__(self, weight, feet, inches, gender, age, activity, goal, days = 1) -> None:
@@ -19,12 +10,30 @@ class Math:
         self.age = age
         self.activity = activity
         self.goal = goal
+        self.goalweight = 0
         self.days = days
-        self._currentDay = 0
-        self.day_list = []
-        self.weight_list = []
+        
 
     # Getter and Setter for weight
+    @property
+    def goalweight(self):
+        return self._goalweight
+    
+    @goalweight.setter
+    def goalweight(self, value):
+        match self.goal:
+            case 'Lose weight':
+                self._goalweight = self.weight - ((self.weight*20)/100)
+            case 'Lose weight slowly':
+                self._goalweight = self.weight - ((self.weight*10)/100)
+            case 'Maintain weight':
+                self._goalweight = self.weight
+            case 'Gain weight slowly':
+                self._goalweight = self.weight + ((self.weight*10)/100)
+            case 'Gain weight':
+                self._goalweight = self.weight + ((self.weight*20)/100)
+
+
     @property
     def weight(self):
         return self._weight
@@ -91,6 +100,7 @@ class Math:
     
     @ days.setter
     def days(self, value):
+        value = int(value)
         if value <= 0:
             self._days = 1
         else: 
@@ -177,27 +187,45 @@ class Math:
         \nCarbs-{round((self.get_calorie_goal()*0.60)/4)}g\
         Fat-{round((self.get_calorie_goal()*0.15)/9)}g\
         Protien-{round((self.get_calorie_goal()*0.25)/4)}g" 
-     
-    # function to get and store their daily body weight and current day
-    def data_store(self):
-        self.weight_list.append(round(self.weight, 2))
-        self.day_list.append(self.currentDay)
-        self.currentDay(1) # I think that's how I properly add a day to a setter, change it if I'm wrong pls
+   
 
     # method to create projected body weight
     def create_PBW(self):
-        projected_weight = []
-        projected_days = []
-        if (self.weight == self.goal):
+        self.projected_weight = []
+        self.projected_days = []
+        if (self.weight == self.goalweight):
             Wc = 0
         else:
-            Wc = (self.goal - self.weight) / self.days
+            Wc = (self.goalweight - self.weight) / self.days
 
         for day in range(self.days + 1):
-            projected_weight.append(round((self.weight + Wc * day), 2)) # might need extra parenthesis
-            projected_days.append(day)
+            self.projected_weight.append(round((self.weight + Wc * day), 2)) # might need extra parenthesis
+            self.projected_days.append(day)
         
-        return projected_weight, projected_days
+
+    
+    def create_plot(self, weight):
+        self.create_PBW()
+        x = self.projected_days
+        y = self.projected_weight
+        x2 = []
+        for day in range(len(weight)):
+            x2.append(day)
+        fig, ax = plt.subplots(1,1)
+        ax.plot(x,y,label='Projected body weight')
+        ax.plot(x2,weight,label='Daily body weight')
+        ax.set_xlabel('Day Number')
+        ax.set_ylabel('Projected Weight')
+        ax.set_title('Projected BW vs Daily BW')
+        x_axis = 0
+        x_axis_list = []
+        while x_axis < (self.days + 10):
+            x_axis_list.append(x_axis)
+            x_axis += 10
+        ax.set_xticks(x_axis_list)
+        ax.plot(x,y, color='green')
+        ax.legend()
+        plt.show() #MAKE SURE TO CORRECTLY SIZE THE PLOT
 
     def create_plot(self):
         x = self.create_days()
