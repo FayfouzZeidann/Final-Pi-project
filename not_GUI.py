@@ -8,6 +8,10 @@ weight = [3, 4]
 pweight = [x**2 for x in range(0,11)]
 DEBUG = False
 
+if DEBUG:
+    m = Math("200", "5", "4", "female", "25", 'Moderately active', "Gain weight slowly", '50')
+    stored_weights = [200, 200, 200, 202, 203, 204, 200, 203, 204]
+
 #constants
 calorie_goal = ''
 macros = ''
@@ -73,7 +77,9 @@ layout4 = [
     ]
 
 layout5 = [
-    [sg.Canvas(size= (300,300), key="-PROJECTED-")],
+    [sg.VPush()],
+    [sg.Canvas(size= (50, 50), key="-PROJECTED-")], [sg.Canvas(size=(50, 50), key='-ACTUAL-')],
+    [sg.VPush()],
     [sg.Push(), sg.Button('BACK'), sg.Push()]
 
 ]
@@ -83,16 +89,27 @@ layout = [[sg.Column(layout1, key='-COLUMN1-'), sg.Column(layout2, visible=False
 
 window = sg.Window('Pi calorie counter', layout).Finalize()
 
+
 layout = 1  
 user_input = []
 while True:
     if DEBUG:
         m = Math("200", "5", "4", "female", "25", 'Moderately active', "Gain weight slowly", '50')
-        stored_weights = [200]
+        stored_weights = [200, 200, 200, 202, 203, 204, 200, 203, 204]
+        m.create_PBW()
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 5
         window[f'-COLUMN{layout}-'].update(visible=True)
-        draw_figure(window["-PROJECTED-"].TKCanvas, m.create_plot(stored_weights))
+        draw_figure(window["-ACTUAL-"].TKCanvas, m.create(stored_weights))
+
+    pbw = []
+    '''
+    if DEBUG:
+        window[f'-COLUMN{layout}-'].update(visible=False)
+        layout = 5
+        window[f'-COLUMN{layout}-'].update(visible=True)
+        draw_figure(window["-PROJECTED-"].TKCanvas, m.create(stored_weights))
+        '''
     event, values = window.read()
     print(event, values)
     #user_input.append(values.values())
@@ -112,7 +129,6 @@ while True:
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 4
         window[f'-COLUMN{layout}-'].update(visible=True)
-       
         calorie_goal = m.get_calorie_goal_STR()
         macros = m.get_macros()
         stored_weights.append(values['-WEIGHT-'])
@@ -125,11 +141,19 @@ while True:
         layout = 3
         window[f'-COLUMN{layout}-'].update(visible=True)
     if event == 'CHART':
+        #figure = generate_figure_plot([x for x in range(0,11)])
+        pbw = m.create_PBW(stored_weights)
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 5
         window[f'-COLUMN{layout}-'].update(visible=True)
-        # draw_figure(window["-PROJECTED-"].TKCanvas, m.create_plot(stored_weights))
-        m.create_plot(stored_weights)
+        if int(stored_weights[0]) == m.goalweight:
+            draw_figure(window["-ACTUAL-"].TKCanvas, m.create(stored_weights,pbw))
+        if int(stored_weights[0]) > m.goalweight:
+            draw_figure(window["-ACTUAL-"].TKCanvas, m.create(stored_weights,[(m.create_goal(int(stored_weights[0]))-int(stored_weights[0])/int(m.days))+int(stored_weights[0])*-x for x in range(int(m.days) +1)]))
+        if int(stored_weights[0]) < m.goalweight:
+            draw_figure(window["-ACTUAL-"].TKCanvas, m.create(stored_weights,[(m.create_goal(int(stored_weights[0]))-int(stored_weights[0])/int(m.days))+int(stored_weights[0])*x for x in range(int(m.days) +1)]))
+        print(pbw)
+        print(stored_weights)
     if event == 'BACK':
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 4

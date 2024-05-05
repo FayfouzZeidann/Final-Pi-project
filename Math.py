@@ -192,7 +192,7 @@ class Math:
     # method to create projected body weight
     def create_PBW(self):
         self.projected_weight = []
-        self.projected_days = []
+        #self.projected_days = []
         if (self.weight == self.goalweight):
             Wc = 0
         else:
@@ -200,9 +200,37 @@ class Math:
 
         for day in range(self.days + 1):
             self.projected_weight.append(round((self.weight + Wc * day), 2)) # might need extra parenthesis
-            self.projected_days.append(day)
+           #self.projected_days.append(day)
+        return self.projected_weight
         
+    #trying something
+    def create_PBW(self, list): #have to store goal
+        projected_weight = []
+        goal = self.create_goal(int(list[0]))
+        weight = int(list[0])
+        #self.projected_days = []
+        if (weight == goal):
+            Wc = 0
+        else:
+            Wc = (goal - weight) / self.days
 
+        for day in range(self.days + 1):
+            projected_weight.append(round((weight + Wc * day), 2)) # might need extra parenthesis
+           #self.projected_days.append(day)
+        return projected_weight
+    
+    def create_goal(self, value):
+        match self.goal:
+            case 'Lose weight':
+                return value - ((value*20)/100)
+            case 'Lose weight slowly':
+                return value - ((value*10)/100)
+            case 'Maintain weight':
+                return value
+            case 'Gain weight slowly':
+                return value + ((value*10)/100)
+            case 'Gain weight':
+                return value + ((value*20)/100)
     
     def create_plot(self, weight):
         self.create_PBW()
@@ -226,6 +254,16 @@ class Math:
         ax.plot(x,y, color='green')
         ax.legend()
         plt.show() #MAKE SURE TO CORRECTLY SIZE THE PLOT
+
+    def create(self, list, list2):
+        plt.scatter([x for x in range(0, len(list))], list, color='blue', marker= 'o')
+        plt.plot([x for x in range(0, len(list2))], list2, color='red', linestyle='dotted')
+        plt.yticks([])
+        plt.title("Your Actual Weight", fontsize=14)
+        plt.xlabel("day", fontsize=14)
+        plt.ylabel("weight", fontsize =14)
+        plt.grid(True)
+        return plt.gcf() #creates figure
 
     def create_plot(self):
         x = self.create_days()
