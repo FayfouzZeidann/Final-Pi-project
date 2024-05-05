@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+
 class Math:
     def __init__(self, weight, feet, inches, gender, age, activity, goal, days = 1) -> None:
         self.weight = weight
@@ -264,4 +265,26 @@ class Math:
         plt.grid(True)
         return plt.gcf() #creates figure
 
-            
+    def create_plot(self):
+        x = self.create_days()
+        y = self.create_PBW()
+        #y2 = get_daily_weight() -> this function returns a list of daily bodyweights
+        y2 = [200, 201.1, 200.2, 199.8, 201, 202, 202, 202, 201, 203, 204, 205, 204, 204, 204, 206, 201]
+        x2 = []
+        for day in range(len(y2)):
+            x2.append(day)
+        fig, ax = plt.subplots(1,1)
+        ax.plot(x,y,label='Projected body weight')
+        ax.plot(x2,y2,label='Daily body weight')
+        ax.set_xlabel('Day Number')
+        ax.set_ylabel('Projected Weight')
+        ax.set_title('Projected BW vs Daily BW')
+        x_axis = 0
+        x_axis_list = []
+        while x_axis < (self.days + 10):
+            x_axis_list.append(x_axis)
+            x_axis += 10
+        ax.set_xticks(x_axis_list)
+        ax.plot(x,y, color='green')
+        ax.legend()
+        plt.show() #MAKE SURE TO CORRECTLY SIZE THE PLOT
