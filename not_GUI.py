@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
+import numpy as np
 from Math import* #REMOVE THIS EVENTUALLY
 from helper_functions import*
+from Data import *
 
 #FOR DEBUGGING. REMOVE LATER
 days = [x for x in range(0,11)]
@@ -9,7 +11,7 @@ pweight = [x**2 for x in range(0,11)]
 DEBUG = False
 
 if DEBUG:
-    m = Math("200", "5", "4", "female", "25", 'Moderately active', "Gain weight slowly", '50')
+    m = Math("200", "5", "4", "female", "25", 'Moderately active', 'Maintain weight', '50')
     stored_weights = [200, 200, 200, 202, 203, 204, 200, 203, 204]
 
 #constants
@@ -68,7 +70,7 @@ layout2 = [[sg.Text('Before we begin, please provide the following information:'
            ]
 
 layout3 = [[sg.Text('Weight:', size =(5,1)), sg.InputText(key='-WEIGHT-')],
-           [sg.Push(), sg.Button('WEIGH!'), sg.Push()]]
+           [sg.Button('AUTO WEIGH'), sg.Push(), sg.Button('WEIGH!')]]
 
 layout4 = [
     [sg.Text("Your Daily Calorie Goal is:"), sg.Text(calorie_goal ,key = '-RESULTC-')],
@@ -94,13 +96,13 @@ layout = 1
 user_input = []
 while True:
     if DEBUG:
-        m = Math("200", "5", "4", "female", "25", 'Moderately active', "Gain weight slowly", '50')
-        stored_weights = [200, 200, 200, 202, 203, 204, 200, 203, 204]
-        m.create_PBW()
+        m = Math("200", "5", "4", "female", "25", 'Moderately active','Maintain weight' , '50')
+        stored_weights = [200, 200]
+        pbw = m.create_PBW(stored_weights)
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 5
         window[f'-COLUMN{layout}-'].update(visible=True)
-        draw_figure(window["-ACTUAL-"].TKCanvas, m.create(stored_weights))
+        draw_figure(window["-ACTUAL-"].TKCanvas, m.create(stored_weights,pbw))
 
     pbw = []
     '''
@@ -131,9 +133,22 @@ while True:
         window[f'-COLUMN{layout}-'].update(visible=True)
         calorie_goal = m.get_calorie_goal_STR()
         macros = m.get_macros()
-        stored_weights.append(values['-WEIGHT-'])
+        stored_weights.append(int(values['-WEIGHT-']))
         window['-RESULTC-'].update(calorie_goal)
         window['-RESULTM-'].update(macros)
+    if event == 'AUTO WEIGH':
+        read() #idk what args to put here
+        w= frequent(weight_list)
+        m = Math(w, values['-FEET-'], values['-INCHES-'], values['-GENDR-'], values['-AGE-'], values['-ACTLVL-'], values['-GOAL-'], values['-DAYS-'])
+        window[f'-COLUMN{layout}-'].update(visible=False)
+        layout = 4
+        window[f'-COLUMN{layout}-'].update(visible=True)
+        calorie_goal = m.get_calorie_goal_STR()
+        macros = m.get_macros()
+        stored_weights.append(int(values['-WEIGHT-']))
+        window['-RESULTC-'].update(calorie_goal)
+        window['-RESULTM-'].update(macros)
+        read() #same args as before, but with switch set to False
     # Addition by Eli, I think we should have some sort of way to weigh yourself again
     # possibly store the previous weight in a var? and move on to the next?
     if event == 'WEIGH AGAIN?':
@@ -142,12 +157,14 @@ while True:
         window[f'-COLUMN{layout}-'].update(visible=True)
     if event == 'CHART':
         #figure = generate_figure_plot([x for x in range(0,11)])
-        pbw = m.create_PBW(stored_weights)
         window[f'-COLUMN{layout}-'].update(visible=False)
         layout = 5
         window[f'-COLUMN{layout}-'].update(visible=True)
         if int(stored_weights[0]) == m.goalweight:
-            draw_figure(window["-ACTUAL-"].TKCanvas, m.create(stored_weights,pbw))
+            m = Math(values['-WEIGHT-'], values['-FEET-'], values['-INCHES-'], values['-GENDR-'], values['-AGE-'], values['-ACTLVL-'], values['-GOAL-'], values['-DAYS-'])
+            pbw = m.create_PBW(stored_weights)
+            w = stored_weights
+            draw_figure(window["-ACTUAL-"].TKCanvas, m.create(w, pbw))
         if int(stored_weights[0]) > m.goalweight:
             draw_figure(window["-ACTUAL-"].TKCanvas, m.create(stored_weights,[(m.create_goal(int(stored_weights[0]))-int(stored_weights[0])/int(m.days))+int(stored_weights[0])*-x for x in range(int(m.days) +1)]))
         if int(stored_weights[0]) < m.goalweight:

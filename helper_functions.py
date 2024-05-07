@@ -1,27 +1,12 @@
 import matplotlib.pyplot as plt 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-'''
-def generate_figure_scatter(list):
-    plt.scatter([x for x in range(len(list))], list, color='blue', marker= 'o')
-    #plt.plot([x for x in range(len(pbw))], pbw, color='red', marker = 'o')
-    plt.yticks([])
-    plt.title("Your Weight Managment Plan", fontsize=14)
-    plt.xlabel("day", fontsize=14)
-    plt.ylabel("weight", fontsize =14)
-    plt.grid(True)
-    return plt.gcf() #creates figure
+import numpy as np 
 
-def generate_figure_plot(list):
-    #plt.scatter([x for x in range(len(list))], list, color='blue', marker= 'o')
-    plt.plot([x for x in range(len(list))], list, color='red', marker = 'o')
-    plt.yticks([])
-    plt.title("Your Weight Managment Plan", fontsize=14)
-    plt.xlabel("day", fontsize=14)
-    plt.ylabel("weight", fontsize =14)
-    plt.grid(True)
-    return plt.gcf() #creates figure
-    '''
-
+def frequent(list):
+     unique, count = np.unique(list, return_counts=True)
+     i = np.argmax(count)
+     return unique[i]
+    
 def create_PBW(list, goal, days): #have to store goal
     projected_weight = []
     weight = int(list[0])
