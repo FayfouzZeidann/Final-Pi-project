@@ -21,17 +21,17 @@ class Math:
     
     @goalweight.setter
     def goalweight(self, value):
-        match self.goal:
-            case 'Lose weight':
-                self._goalweight = self.weight - ((self.weight*20)/100)
-            case 'Lose weight slowly':
-                self._goalweight = self.weight - ((self.weight*10)/100)
-            case 'Maintain weight':
-                self._goalweight = self.weight
-            case 'Gain weight slowly':
-                self._goalweight = self.weight + ((self.weight*10)/100)
-            case 'Gain weight':
-                self._goalweight = self.weight + ((self.weight*20)/100)
+        if self.goal == 'Lose weight':
+            self._goalweight = self.weight - ((self.weight*20)/100)
+        elif self.goal == 'Lose weight slowly':
+            self._goalweight = self.weight - ((self.weight*10)/100)
+        elif self.goal == 'Maintain weight':
+            self._goalweight = self.weight
+        elif self.goal == 'Gain weight slowly':
+            self._goalweight = self.weight + ((self.weight*10)/100)
+        elif self.goal == 'Gain weight':
+            self._goalweight = self.weight + ((self.weight*20)/100)
+        
 
 
     @property
@@ -135,43 +135,43 @@ class Math:
         
     # Function to get a person's TDEE (depending on their option)
     def get_TDEE(self):
-        match self.activity:
-            case 'Sedentary':
-                return 1.2 * self.get_BMR()
-            case 'Moderately active':
-                return 1.55 * self.get_BMR()
-            case 'Vigorously active':
-                return 1.725 * self.get_BMR()
-            case 'Extremely active':
-                return 1.9 * self.get_BMR()
+        if self.activity == 'Sedentary':
+            return 1.2 * self.get_BMR()
+        elif self.activity == 'Moderately active':
+            return 1.55 * self.get_BMR()
+        elif self.activity == 'Vigorously active':
+             return 1.725 * self.get_BMR()
+        elif self.activity == 'Extremely active':
+            return 1.9 * self.get_BMR()
+            
             
     # Function to get recommended calories (based off their choice) and return as a string
     def get_calorie_goal_STR(self):
-         match self.goal:
-            case 'Lose weight':
-                return f"{round(self.get_TDEE() - 500)}"
-            case 'Lose weight slowly':
-                return f"{round(self.get_TDEE() - 250)}"
-            case 'Maintain weight':
-                return f"{round(self.get_TDEE(), 0)}"
-            case 'Gain weight slowly':
-                return f"{round(self.get_TDEE() + 250)}"
-            case 'Gain weight':
-                return f"{round(self.get_TDEE() + 500)}"
+        if self.goal == 'Lose weight' :
+            return f"{round(self.get_TDEE() - 500)}"
+        elif self.goal == 'Lose weight slowly':
+            return f"{round(self.get_TDEE() - 250)}"
+        elif self.goal == 'Maintain weight':
+            return f"{round(self.get_TDEE(), 0)}"
+        elif self.goal =='Gain weight slowly':
+            return f"{round(self.get_TDEE() + 250)}"
+        elif self.goal =='Gain weight':
+            return f"{round(self.get_TDEE() + 500)}"
+        
 
     #return round(s * 703, 1) &  Function to get recommended calories (based off their choice)
     def get_calorie_goal(self):
-        match self.goal:
-            case 'Lose weight':
-                return round(self.get_TDEE() - 500, 0)
-            case 'Lose weight slowly':
-                return round(self.get_TDEE() - 250, 0)
-            case 'Maintain weight':
-                return round(self.get_TDEE(), 0)
-            case 'Gain weight slowly':
-                return round(self.get_TDEE() + 250, 0)
-            case 'Gain weight':
-                return round(self.get_TDEE() + 500, 0)
+        if self.goal == 'Lose weight' :
+            return round(self.get_TDEE() - 500, 0)
+        elif self.goal == 'Lose weight slowly':
+            return round(self.get_TDEE() - 250, 0)
+        elif self.goal == 'Maintain weight':
+            return round(self.get_TDEE(), 0)
+        elif self.goal == 'Gain weight slowly':
+            return round(self.get_TDEE() + 250, 0)
+        elif self.goal =='Gain weight':
+             return round(self.get_TDEE() + 500, 0)
+        
     
     # Used to get the macros and it also prints it as a string
     def get_macros(self): # Calculates macros for what you want to do
@@ -220,17 +220,16 @@ class Math:
         return projected_weight
     
     def create_goal(self, value):
-        match self.goal:
-            case 'Lose weight':
-                return value - ((value*20)/100)
-            case 'Lose weight slowly':
-                return value - ((value*10)/100)
-            case 'Maintain weight':
-                return value
-            case 'Gain weight slowly':
-                return value + ((value*10)/100)
-            case 'Gain weight':
-                return value + ((value*20)/100)
+        if self.goal == 'Lose weight' :
+            return value - ((value*20)/100)
+        elif self.goal == 'Lose weight slowly':
+            return value - ((value*10)/100)
+        elif self.goal =='Maintain weight':
+            return value
+        elif self.goal =='Gain weight slowly':
+            return value + ((value*10)/100)
+        elif self.goal == 'Gain weight':
+             return value + ((value*20)/100)
     
     def create_plot(self, weight):
         self.create_PBW()
