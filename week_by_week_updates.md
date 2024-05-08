@@ -6,18 +6,18 @@ Nick:
 
 Week 2: (04/15-21/24)
 
-Fayrouz:
+Fayrouz: Added a few more quality of life updates to the GUI
 Eli: We got together as a group to start up the foundation on the raspberry pi. Also, had much trouble figuring out how to connect the bluetooth of the wii balance board using python libraries. We decided to have it wired manually instead.
 Nick:
 
 Week 3: (04/22-28/24)
 
-Fayrouz:
+Fayrouz:obtained load cells for scale, fixed graphing issue
 Eli:
 Nick:
 
 Week 4: (04/29/24 - 05/05/24)
 
-Fayrouz:
+Fayrouz: final stages of settign up the gui, figuring out how to make it work with the hardware
 Eli:
 Nick:

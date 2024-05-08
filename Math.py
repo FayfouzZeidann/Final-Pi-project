@@ -106,14 +106,6 @@ class Math:
         else: 
             self._days = value
 
-    # Getter and setter for the current day
-    @ property
-    def currentDay(self):
-        return self._currentDay
-    
-    @ currentDay.setter
-    def currentDay(self, value):
-        self._currentDay = self._currentDay + value
 
     # Function to find height
     def find_height(self, ft, inch):
@@ -173,7 +165,7 @@ class Math:
              return round(self.get_TDEE() + 500, 0)
         
     
-    # Used to get the macros and it also prints it as a string
+    # Used to get the macros and it also prints it as a string (this one is only used ofr debugging)
     def get_macros(self): # Calculates macros for what you want to do
         return f"Balanced:\
         \nCarbs-{round((self.get_calorie_goal()*0.4)/4)}g\
@@ -203,7 +195,7 @@ class Math:
            #self.projected_days.append(day)
         return self.projected_weight
         
-    #trying something
+    #a similar pbw function, but this takes in a list of stored weights as a refrence
     def create_PBW(self, list): #have to store goal
         projected_weight = []
         goal = self.create_goal(int(list[0]))
@@ -219,6 +211,7 @@ class Math:
            #self.projected_days.append(day)
         return projected_weight
     
+    #creates goal weight based on goal string
     def create_goal(self, value):
         if self.goal == 'Lose weight' :
             return value - ((value*20)/100)
@@ -231,59 +224,15 @@ class Math:
         elif self.goal == 'Gain weight':
              return value + ((value*20)/100)
     
-    def create_plot(self, weight):
-        self.create_PBW()
-        x = self.projected_days
-        y = self.projected_weight
-        x2 = []
-        for day in range(len(weight)):
-            x2.append(day)
-        fig, ax = plt.subplots(1,1)
-        ax.plot(x,y,label='Projected body weight')
-        ax.plot(x2,weight,label='Daily body weight')
-        ax.set_xlabel('Day Number')
-        ax.set_ylabel('Projected Weight')
-        ax.set_title('Projected BW vs Daily BW')
-        x_axis = 0
-        x_axis_list = []
-        while x_axis < (self.days + 10):
-            x_axis_list.append(x_axis)
-            x_axis += 10
-        ax.set_xticks(x_axis_list)
-        ax.plot(x,y, color='green')
-        ax.legend()
-        plt.show() #MAKE SURE TO CORRECTLY SIZE THE PLOT
-
+    #creates set of plots showing two different sets of data
     def create(self, list, list2):
         plt.scatter([x for x in range(0, len(list))], list, color='blue', marker= 'o')
         plt.plot([x for x in range(0, len(list2))], list2, color='red', linestyle='dotted')
         plt.yticks([])
-        plt.title("Your Actual Weight", fontsize=14)
+        plt.title("Your Weight Managment Plan", fontsize=14)
         plt.xlabel("day", fontsize=14)
         plt.ylabel("weight", fontsize =14)
         plt.grid(True)
-        return plt.gcf() #creates figure
+        #return plt.gcf() #creates figure
+        plt.show()
 
-    def create_plot(self):
-        x = self.create_days()
-        y = self.create_PBW()
-        #y2 = get_daily_weight() -> this function returns a list of daily bodyweights
-        y2 = [200, 201.1, 200.2, 199.8, 201, 202, 202, 202, 201, 203, 204, 205, 204, 204, 204, 206, 201]
-        x2 = []
-        for day in range(len(y2)):
-            x2.append(day)
-        fig, ax = plt.subplots(1,1)
-        ax.plot(x,y,label='Projected body weight')
-        ax.plot(x2,y2,label='Daily body weight')
-        ax.set_xlabel('Day Number')
-        ax.set_ylabel('Projected Weight')
-        ax.set_title('Projected BW vs Daily BW')
-        x_axis = 0
-        x_axis_list = []
-        while x_axis < (self.days + 10):
-            x_axis_list.append(x_axis)
-            x_axis += 10
-        ax.set_xticks(x_axis_list)
-        ax.plot(x,y, color='green')
-        ax.legend()
-        plt.show() #MAKE SURE TO CORRECTLY SIZE THE PLOT
