@@ -2,23 +2,23 @@ import serial
 import time
 from time import sleep
 
-weight_list = []
+#creates "aurduino" object through wihc readings are fed to the program
+arduino = serial.Serial(port = "COM3", baudrate = 57600, timeout = 0.1)
+
+#a function to read several lines of data and gather their average
+def read():
+    weights = []
+    last_10 = []
+    for i in range(100):
+        msg = arduino.readline().decode().strip()
+        if msg == "":
+            pass
+        elif msg == None:
+            pass
+        else:
+            weights.append(msg)
+    for x in range(1,11):
+        last_10.append(float(weights[len(weights) - x]))
+    return round(sum(last_10)/len(last_10), 2)
 
 
-def read(comport, baudrate, switch):
-
-    ser = serial.Serial(comport, baudrate, timeout=0.1)         # 1/timeout is the frequency at which the port is read
-
-    while switch == True:
-
-        data = ser.readline().decode().strip()
-        if data:
-            weight_list.append(data)
-            sleep(5)
-        if switch == False:
-            break
-
-
-if __name__ == '__main__':
-
-    read('COM28', 115200)
